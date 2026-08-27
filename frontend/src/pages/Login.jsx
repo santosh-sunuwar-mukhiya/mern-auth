@@ -9,7 +9,7 @@ export default function Login() {
 
   const navigate = useNavigate()
 
-  const {backendUrl, setIsLogged} = useContext(AppContent);
+  const {backendUrl, setIsLogged, getUserData} = useContext(AppContent);
 
   const [state, setState] = React.useState('Sign Up')
   const [name, setName] = React.useState('')
@@ -27,6 +27,7 @@ export default function Login() {
 
         if(data.success){
           setIsLogged(true)
+          getUserData()
           navigate('/')
         }else{
           toast.error(data.message)
@@ -36,6 +37,7 @@ export default function Login() {
 
         if(data.success){
           setIsLogged(true)
+          getUserData()
           navigate('/')
         }else{
           toast.error(data.message)
