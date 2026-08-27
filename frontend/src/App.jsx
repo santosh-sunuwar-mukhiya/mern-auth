@@ -1,7 +1,19 @@
+import { Route, Routes } from 'react-router-dom'
+import Home from './pages/Home'
+import Login from './pages/Login'
+import EmailVerify from './pages/EmailVerify'
+import ResetPassword from './pages/ResetPassword'
+
 export default function App() {
   return (
     <>
-      <h1 className="text-3xl font-bold underline text-center">This is App Component.</h1>
+      
+      <Routes>
+        <Route path='/' element={<Home />} />
+        <Route path='/login' element={<Login />} />
+        <Route path='/email-verify' element={<EmailVerify />} />
+        <Route path='/reset-password' element={<ResetPassword />} />
+      </Routes>
     </>
   )
 }
