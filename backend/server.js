@@ -10,10 +10,11 @@ import userRouter from "./routes/user.route.js"
 dotenv.config()
 const PORT = process.env.PORT || 8000
 
+const allowedOrigins = ["http://localhost:5173"];
 const app = express()
 app.use(express.json());
 app.use(cookieParser());
-app.use(cors({ credentials: true }))
+app.use(cors({origin:allowedOrigins, credentials: true }))
 app.use('/api/auth', router);
 app.use('/api/user', userRouter);
 
