@@ -1,10 +1,16 @@
-import React from 'react'
+import React, {useContext} from 'react'
 import {assets} from '../assets/assets'
 import {useNavigate} from "react-router-dom";
+import {AppContent} from "../context/AppContext.jsx";
+import axios from "axios";
+import {toast} from "react-toastify";
 
 export default function Login() {
 
   const navigate = useNavigate()
+
+  const {backendUrl, setIsLogged} = useContext(AppContent);
+
   const [state, setState] = React.useState('Sign Up')
   const [name, setName] = React.useState('')
   const [email, setEmail] = React.useState('')
@@ -13,10 +19,30 @@ export default function Login() {
   const handleSubmit = async (e) => {
     e.preventDefault()
 
+    axios.defaults.withCredentials = true;
+
     try{
+      if(state === 'Sign Up'){
+        const {data} = await axios.post(`${backendUrl}/api/auth/register`, {name, email, password});
 
+        if(data.success){
+          setIsLogged(true)
+          navigate('/')
+        }else{
+          toast.error(data.message)
+        }
+      }else{
+        const {data} = await axios.post(`${backendUrl}/api/auth/login`, {email, password});
+
+        if(data.success){
+          setIsLogged(true)
+          navigate('/')
+        }else{
+          toast.error(data.message)
+        }
+      }
     }catch(err){
-
+      toast.error(err.message)
     }
   }
 
@@ -27,7 +53,7 @@ export default function Login() {
         <h2 className='text-3xl font-semibold text-white text-center mb-3'>{state === 'Sign Up' ? 'Create your account' : 'Login to your account!'}</h2>
         <p className='text-center text-sm mb-6'>{state === 'Sign Up' ? 'Create your account' : 'Login to your account!'}</p>
 
-        <form>
+        <form onSubmit={handleSubmit}>
           {state === 'Sign Up' && (<div className='flex items-center gap-3 mb-4 w-full px-5 py-2.5 rounded-full bg-[#333A5C]'>
             <img src={assets.person_icon} alt={'person icon'}/>
             <input
