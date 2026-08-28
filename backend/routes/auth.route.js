@@ -11,7 +11,7 @@ router.post('/login', login)
 router.post('/logout', logout)
 router.post('/verify-otp', userAuth, sendVerifyOtp);
 router.post('/verify-account', userAuth, verifyEmail);
-router.post('/is-auth', userAuth, checkAuth);
+router.get('/is-auth', userAuth, checkAuth);
 router.post('/reset-otp', resetOtp);
 router.post('/reset-password', resetPassword);
 
