@@ -5,6 +5,7 @@ import axios from "axios";
 export const AppContent = React.createContext();
 
 export const AppContextProvider = ({children}) => {
+    axios.defaults.withCredentials = true;
     const backendUrl = import.meta.env.VITE_BACKEND_URL;
     const [isLogged, setIsLogged] = React.useState(false);
     const [userData, setUserData] = React.useState(false);
