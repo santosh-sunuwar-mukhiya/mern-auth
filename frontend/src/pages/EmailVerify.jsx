@@ -8,8 +8,8 @@ import {toast} from "react-toastify";
 export default function EmailVerify() {
     axios.defaults.withCredentials = true;
     const {backendUrl, isLogged, userData, getUserData} = useContext(AppContent);
-    const inputRefs = React.useRef([]);
     const navigate = useNavigate();
+    const inputRefs = React.useRef([]);
 
     const handleInput = (e, i) => {
         if(e.target.value.length > 0 && i < inputRefs.current.length - 1) {
