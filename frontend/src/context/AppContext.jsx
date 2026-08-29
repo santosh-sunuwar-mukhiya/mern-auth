@@ -14,10 +14,13 @@ export const AppContextProvider = ({children}) => {
         try{
             const {data} = await axios.get(`${backendUrl}/api/auth/is-auth`);
             if(data.success){
-                setUserData(true);
+                setIsLogged(true);
                 await getUserData()
+            }else{
+                setIsLogged(false);
             }
         }catch(err){
+            setIsLogged(false);
             toast.error(err.message)
         }
     }

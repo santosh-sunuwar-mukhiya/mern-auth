@@ -1,13 +1,13 @@
 import {assets} from "../assets/assets.js";
 import {useNavigate} from "react-router-dom";
-import React, {useContext} from "react";
+import React, {useContext, useEffect} from "react";
 import {AppContent} from "../context/AppContext.jsx";
 import axios from "axios";
 import {toast} from "react-toastify";
 
 export default function EmailVerify() {
     axios.defaults.withCredentials = true;
-    const {backendUrl, isLoggedIn, userData, getUserData} = useContext(AppContent);
+    const {backendUrl, isLogged, userData, getUserData} = useContext(AppContent);
     const inputRefs = React.useRef([]);
     const navigate = useNavigate();
 
@@ -61,6 +61,13 @@ export default function EmailVerify() {
             toast.error(err.message)
         }
     }
+
+    useEffect(() => {
+        if (isLogged && userData?.isAccountVerified) {
+            navigate('/');
+        }
+    }, [isLogged, userData,navigate]);
+
   return (
     <div className="flex items-center justify-center min-h-screen bg-gradient-to-br from-blue-200 to-purple-400">
       <img onClick={()=> navigate('/')} src={assets.logo} alt={'logo'} className={'absolute left-5 sm:left-20 top-5 w-28 sm:w-32 cursor-pointer'} />
