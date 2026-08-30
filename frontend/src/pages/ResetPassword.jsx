@@ -58,6 +58,24 @@ export default function ResetPassword() {
             toast.error(err.message)
         }
     }
+
+    const handleOtp = (e) => {
+        e.preventDefault();
+        const otpArray = inputRefs.current.map(e => e.value);
+        setOtp(otpArray.join(''));
+        setIsOtpSubmitted(true);
+    }
+
+    const handleNewPassword = async (e) => {
+        e.preventDefault();
+        try{
+            const {data} = await axios.post(`${backendUrl}/api/auth/reset-password`, {email, otp, newPassword});
+            data.success ? toast.success(data.message) : toast.error(data.message);
+            data.success && navigate('/login');
+        }catch(err){
+            toast.error(err.message)
+        }
+    }
     return (
         <div className="flex items-center justify-center min-h-screen bg-gradient-to-br from-blue-200 to-purple-400">
             <img onClick={()=> navigate('/')} src={assets.logo} className='absolute left-5 sm:left-20 top-5 w-28 sm:w-32 cursor-pointer' alt={'logo'}/>
@@ -81,7 +99,7 @@ export default function ResetPassword() {
 
             {/*otp input form*/}
             {!isOtpSubmitted && isEmailSent &&
-                <form id={'reset-otp'} className={'bg-slate-900 p-8 rounded-lg shadow-lg w-96 text-sm'}>
+                <form onSubmit={handleOtp} id={'reset-otp'} className={'bg-slate-900 p-8 rounded-lg shadow-lg w-96 text-sm'}>
                 <h1 className={'text-white text-2xl font-semibold text-center mb-4'}>Reset Password OTP</h1>
                 <p className={'text-center mb-6 text-indigo-300'}>Enter the 6 digit code sent to your email id.</p>
                 <div className={'flex justify-between mb-8'} onPaste={handlePaste}>
@@ -99,7 +117,7 @@ export default function ResetPassword() {
 
             {/*new password form*/}
             {isOtpSubmitted && isEmailSent &&
-                <form id={'reset-password'} className={'bg-slate-900 p-8 rounded-lg shadow-lg w-96 text-sm'}>
+                <form onSubmit={handleNewPassword} id={'reset-password'} className={'bg-slate-900 p-8 rounded-lg shadow-lg w-96 text-sm'}>
                 <h1 className={'text-white text-2xl font-semibold text-center mb-4'}>New Password</h1>
                 <p className={'text-center mb-6 text-indigo-300'}>Enter the new password below.</p>
                 <div className={'mb-4 flex items-center gap-3 w-full px-5 py-2.5 rounded-full bg-[#333A5C]'}>
