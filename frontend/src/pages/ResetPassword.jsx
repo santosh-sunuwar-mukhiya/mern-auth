@@ -69,7 +69,7 @@ export default function ResetPassword() {
     const handleNewPassword = async (e) => {
         e.preventDefault();
         try{
-            const {data} = await axios.post(`${backendUrl}/api/auth/reset-password`, {email, otp, newPassword});
+            const {data} = await axios.post(`${backendUrl}/api/auth/reset-password`, {email, otp, password: newPassword});
             data.success ? toast.success(data.message) : toast.error(data.message);
             data.success && navigate('/login');
         }catch(err){
